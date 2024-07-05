@@ -1628,6 +1628,13 @@
 						{ "type": "null" }
 					]
 				},
+				"noDuplicateSelectors": {
+					"description": "Disallow duplicate selectors.",
+					"anyOf": [
+						{ "$ref": "#/definitions/RuleConfiguration" },
+						{ "type": "null" }
+					]
+				},
 				"noDuplicateSelectorsKeyframeBlock": {
 					"description": "Disallow duplicate selectors within keyframe blocks.",
 					"anyOf": [

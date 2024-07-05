@@ -1,11 +1,17 @@
-use std::{collections::HashSet, hash::{Hash, Hasher}, vec};
+use std::{
+    collections::HashSet,
+    hash::{Hash, Hasher},
+    vec,
+};
 
 use biome_analyze::{
-    context::RuleContext, declare_rule, Phases, QueryMatch, Queryable, Rule, RuleDiagnostic, Visitor, VisitorContext
+    context::RuleContext, declare_rule, Phases, QueryMatch, Queryable, Rule, RuleDiagnostic,
+    Visitor, VisitorContext,
 };
 use biome_console::markup;
 use biome_css_syntax::{
-    AnyCssRelativeSelector, AnyCssSelector, AnyCssSimpleSelector, AnyCssSubSelector, CssLanguage, CssNestedQualifiedRule, CssQualifiedRule, CssRuleList, CssSyntaxKind
+    AnyCssRelativeSelector, AnyCssSelector, AnyCssSimpleSelector, AnyCssSubSelector, CssLanguage,
+    CssNestedQualifiedRule, CssQualifiedRule, CssRuleList, CssSyntaxKind,
 };
 
 use biome_rowan::{AstNode, SyntaxNode, TextRange, WalkEvent};
@@ -50,7 +56,7 @@ declare_rule! {
 pub struct ResolvedSelectorWithTextRanges {
     resolved_string: String,
     first_seen_text_range: TextRange,
-    text_ranges: Vec<TextRange>
+    text_ranges: Vec<TextRange>,
 }
 
 impl PartialEq for ResolvedSelectorWithTextRanges {
@@ -132,22 +138,27 @@ impl Visitor for DuplicateSelectorsVisitor {
                         }) {
                             for r in resolved {
                                 let resolved_string = r + " " + &selector.text();
-                                if let Some(occurence) = self.resolved.get(&ResolvedSelectorWithTextRanges {
-                                    resolved_string:  resolved_string.clone(),
-                                    first_seen_text_range: selector.range(),
-                                    text_ranges: [].to_vec()
-                                }) {
-                                    self.resolved.replace(                           
-                                        ResolvedSelectorWithTextRanges {
-                                        resolved_string:  resolved_string,
+                                if let Some(occurence) =
+                                    self.resolved.get(&ResolvedSelectorWithTextRanges {
+                                        resolved_string: resolved_string.clone(),
+                                        first_seen_text_range: selector.range(),
+                                        text_ranges: [].to_vec(),
+                                    })
+                                {
+                                    self.resolved.replace(ResolvedSelectorWithTextRanges {
+                                        resolved_string: resolved_string,
                                         first_seen_text_range: occurence.first_seen_text_range,
-                                        text_ranges: [occurence.text_ranges.clone(), [selector.range()].to_vec()].concat()
+                                        text_ranges: [
+                                            occurence.text_ranges.clone(),
+                                            [selector.range()].to_vec(),
+                                        ]
+                                        .concat(),
                                     });
                                 } else {
                                     self.resolved.insert(ResolvedSelectorWithTextRanges {
-                                        resolved_string:  resolved_string.clone(),
+                                        resolved_string: resolved_string.clone(),
                                         first_seen_text_range: selector.range(),
-                                        text_ranges: [].to_vec()
+                                        text_ranges: [].to_vec(),
                                     });
                                 }
                             }
@@ -219,7 +230,10 @@ impl Rule for NoDuplicateSelectors {
                     "Duplicate selectors may result in unintentionally overriding rules."
                 },
             )
-            .details(node.text_ranges.clone(),"Please consider moving the rule's contents to the first occurence:")
+            .details(
+                node.text_ranges.clone(),
+                "Please consider moving the rule's contents to the first occurence:",
+            )
             .note(markup! {
                 "Remove duplicate selectors within the rule"
             }),

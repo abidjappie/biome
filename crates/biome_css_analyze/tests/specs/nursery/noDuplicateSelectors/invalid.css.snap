@@ -1,6 +1,5 @@
 ---
 source: crates/biome_css_analyze/tests/spec_tests.rs
-assertion_line: 83
 expression: invalid.css
 ---
 # Input
@@ -38,7 +37,7 @@ expression: invalid.css
 ```
 invalid.css:3:5 lint/nursery/noDuplicateSelectors ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  ! Duplicate not allowed
+  ! Duplicate selectors may result in unintentionally overriding rules.
   
     1 │ /* selectors using parts of other selectors */
     2 │ .goo .gar {
@@ -47,7 +46,7 @@ invalid.css:3:5 lint/nursery/noDuplicateSelectors ━━━━━━━━━━
     4 │         s {
     5 │             
   
-  i Please remove the duplicate
+  i Please consider moving the rule's contents to the first occurence:
   
     18 │ .goo {
   > 19 │     div {
@@ -55,7 +54,7 @@ invalid.css:3:5 lint/nursery/noDuplicateSelectors ━━━━━━━━━━
     20 │         s {
     21 │ 
   
-  i This note will give you more information.
+  i Remove duplicate selectors within the rule
   
 
 ```
@@ -63,7 +62,7 @@ invalid.css:3:5 lint/nursery/noDuplicateSelectors ━━━━━━━━━━
 ```
 invalid.css:4:9 lint/nursery/noDuplicateSelectors ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  ! Duplicate not allowed
+  ! Duplicate selectors may result in unintentionally overriding rules.
   
     2 │ .goo .gar {
     3 │     div {
@@ -72,7 +71,7 @@ invalid.css:4:9 lint/nursery/noDuplicateSelectors ━━━━━━━━━━
     5 │             
     6 │         }
   
-  i Please remove the duplicate
+  i Please consider moving the rule's contents to the first occurence:
   
     18 │ .goo {
     19 │     div {
@@ -81,7 +80,7 @@ invalid.css:4:9 lint/nursery/noDuplicateSelectors ━━━━━━━━━━
     21 │ 
     22 │         }
   
-  i This note will give you more information.
+  i Remove duplicate selectors within the rule
   
 
 ```
