@@ -1,0 +1,27 @@
+/* selectors using parts of other selectors */
+.goo .gar {
+    div {
+        s {
+            
+        }
+    }
+    z {
+        m {
+
+        }
+        n {
+            
+        }
+    }
+}
+
+.goo {
+    div {
+        s {
+
+        }
+    }
+}
+
+/* TODO: this case does not work yet because it doesn't compare on root level */
+.goo div {}

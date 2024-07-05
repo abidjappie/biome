@@ -1,0 +1,17 @@
+/* selectors using parts of other selectors */
+.foo .bar {
+    div {
+        
+    }
+    s {
+        t {
+
+        }
+        u {
+            
+        }
+    }
+}
+.qoo {}
+.qar {}
+.sar .soo {}

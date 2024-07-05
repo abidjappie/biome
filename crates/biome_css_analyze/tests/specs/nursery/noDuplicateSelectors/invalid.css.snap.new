@@ -1,0 +1,87 @@
+---
+source: crates/biome_css_analyze/tests/spec_tests.rs
+assertion_line: 83
+expression: invalid.css
+---
+# Input
+```css
+/* selectors using parts of other selectors */
+.goo .gar {
+    div {
+        s {
+            
+        }
+    }
+    z {
+        m {
+
+        }
+        n {
+            
+        }
+    }
+}
+
+.goo {
+    div {
+        s {
+
+        }
+    }
+}
+
+/* TODO: this case does not work yet because it doesn't compare on root level */
+.goo div {}
+```
+
+# Diagnostics
+```
+invalid.css:3:5 lint/nursery/noDuplicateSelectors ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Duplicate not allowed
+  
+    1 │ /* selectors using parts of other selectors */
+    2 │ .goo .gar {
+  > 3 │     div {
+      │     ^^^
+    4 │         s {
+    5 │             
+  
+  i Please remove the duplicate
+  
+    18 │ .goo {
+  > 19 │     div {
+       │     ^^^
+    20 │         s {
+    21 │ 
+  
+  i This note will give you more information.
+  
+
+```
+
+```
+invalid.css:4:9 lint/nursery/noDuplicateSelectors ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Duplicate not allowed
+  
+    2 │ .goo .gar {
+    3 │     div {
+  > 4 │         s {
+      │         ^
+    5 │             
+    6 │         }
+  
+  i Please remove the duplicate
+  
+    18 │ .goo {
+    19 │     div {
+  > 20 │         s {
+       │         ^
+    21 │ 
+    22 │         }
+  
+  i This note will give you more information.
+  
+
+```

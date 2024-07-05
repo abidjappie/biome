@@ -759,6 +759,20 @@ impl RuleDiagnostic {
         self.label(span, msg)
     }
 
+    // TODO: This doesn't currently support AsSpan i.e. the span time MUST be TextRange already
+    pub fn details(mut self, spans: Vec<TextRange>, msg: impl Display + Clone) -> Self {
+        for span in spans.into_iter() {
+            self.rule_advice.details.push(
+                Detail {
+                    log_category: LogCategory::Info,
+                    message: markup!({ msg }).to_owned(),
+                    range: span.as_span(),
+                }
+            )
+        }
+        self
+    }
+
     /// Adds a footer to this [`RuleDiagnostic`], which will be displayed under the actual error.
     fn footer(mut self, log_category: LogCategory, msg: impl Display) -> Self {
         self.rule_advice
